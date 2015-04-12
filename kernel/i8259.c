@@ -1,0 +1,20 @@
+#include "global.h"
+#include "interrupt.h"
+
+void init_8259A(void)
+{
+	out_byte(0x20, 0x11);	//Master 8259 ICW1
+	out_byte(0xA0, 0x11);	//Slave 8259 ICW1
+	
+	out_byte(0x21, 0x20);	//Master ICW2. 设置中断入口为0x20
+	out_byte(0xA1, 0x28);	//Slave ICW2. 设置中断入口为0x28
+	
+	out_byte(0x21, 0x4);	//ICW3
+	out_byte(0xA1, 0x2);	//ICW3
+	
+	out_byte(0x21, 0x1);	//ICW4
+	out_byte(0xA1, 0x1);	//ICW4
+	
+	out_byte(0x21, 0xFF);	//关所有中断
+	out_byte(0xA1, 0xFF);
+}
